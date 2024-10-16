@@ -9,10 +9,11 @@ USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
-COPY ["Catalog.API.csproj", "./"]
-RUN dotnet restore "Catalog.API.csproj"
+COPY ["src/Services/Catalog/Catalog.API/Catalog.API.csproj", "src/Services/Catalog/Catalog.API/"]
+#COPY ["src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/BuildingBlocks/"]
+RUN dotnet restore "src/Services/Catalog/Catalog.API/Catalog.API.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/src/Services/Catalog/Catalog.API"
 RUN dotnet build "Catalog.API.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
