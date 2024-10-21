@@ -1,18 +1,18 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5001
-EXPOSE 5051
+EXPOSE 8080
+EXPOSE 8081
 
-ENV ASPNETCORE_URLS=http://+:5001
+ENV ASPNETCORE_URLS=http://+:8080
 
 USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG configuration=Release
 WORKDIR /src
-COPY ["Basket.API.csproj", "./"]
-RUN dotnet restore "Basket.API.csproj"
+COPY ["src/Services/Basket/Basket.API/Basket.API.csproj", "src/Services/Basket/Basket.API/"]
+RUN dotnet restore "src/Services/Basket/Basket.API/Basket.API.csproj"
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/src/Services/Basket/Basket.API"
 RUN dotnet build "Basket.API.csproj" -c $configuration -o /app/build
 
 FROM build AS publish
