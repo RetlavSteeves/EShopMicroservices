@@ -17,13 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{4F5DCD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.API", "Services\Basket\Basket.API\Basket.API.csproj", "{F2CF23B8-B037-4955-8BC7-A9B756BF1DF0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Discount", "Discount", "{93CA6E46-0091-4CDF-9C86-9E87FC9D6474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discount.Grpc", "Services\Discount\Discount.Grpc\Discount.Grpc.csproj", "{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{24B1CDC0-57F2-4C45-BA60-7C9F8973C3E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,6 +39,13 @@ Global
 		{F2CF23B8-B037-4955-8BC7-A9B756BF1DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2CF23B8-B037-4955-8BC7-A9B756BF1DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2CF23B8-B037-4955-8BC7-A9B756BF1DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F8BD4B9D-6FD2-46BB-A16C-96C621EE3E09} = {EFCE8838-B6A0-4E22-80C2-48A660770504}
@@ -45,5 +53,7 @@ Global
 		{239C3B2C-DA79-4681-A5CC-6147EC228144} = {ECC6C64D-D091-409C-9C9E-4F9BD2C27088}
 		{4F5DCD80-958B-4738-9375-1D2182B68573} = {EFCE8838-B6A0-4E22-80C2-48A660770504}
 		{F2CF23B8-B037-4955-8BC7-A9B756BF1DF0} = {4F5DCD80-958B-4738-9375-1D2182B68573}
+		{93CA6E46-0091-4CDF-9C86-9E87FC9D6474} = {EFCE8838-B6A0-4E22-80C2-48A660770504}
+		{7A8B3997-DE6B-4D17-BE8E-ACEDA0B42389} = {93CA6E46-0091-4CDF-9C86-9E87FC9D6474}
 	EndGlobalSection
 EndGlobal
