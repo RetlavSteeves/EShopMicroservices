@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Discount.Grpc.Migrations
 {
     [DbContext(typeof(DiscountContext))]
-    [Migration("20241025090928_InitialCreate")]
+    [Migration("20241025141138_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

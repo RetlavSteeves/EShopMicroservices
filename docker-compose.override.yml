@@ -83,4 +83,4 @@ services:
       - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro #$"{APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro"
       - ~/.aspnet/https:/root/.aspnet/https:ro #$"{APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro"
       - ~/.aspnet/https:/https
-      #- Users/valteresteves/dev/EShopMicroservices/src/Services/Discount/Discount.Grpc:/root
+    

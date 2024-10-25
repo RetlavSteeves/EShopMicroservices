@@ -20,7 +20,6 @@ RUN dotnet publish "Discount.Grpc.csproj" -c $configuration -o /app/publish /p:U
 
 FROM base AS final
 WORKDIR /app
-COPY ["src/Services/Discount/Discount.Grpc/discountdb","/app"]
 COPY --from=publish /app/publish .
 
 
