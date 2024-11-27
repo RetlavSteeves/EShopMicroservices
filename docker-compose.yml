@@ -2,30 +2,110 @@
 services:
   catalogdb:
     image: postgres
-  
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "CatalogDb"
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/data/
+      
   basketdb:
     image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "CatalogDb"
+    restart: always
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_basket:/var/lib/postgresql/data/
 
   distributedcache:
     image: redis
-
+    restart: always
+    ports:
+      - "6379:6379"
+  
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Vh123456"
+    restart: always
+    ports:
+      - "1433:1433"
+  
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
-
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Eshop
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=postgres;Include Error Detail=true
+    depends_on:
+      - catalogdb
+    ports:
+      - "6000:8080"
+      - "6060:8081"
+    volumes:
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro #$"{APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro"
+      - ~/.aspnet/https:/root/.aspnet/https:ro #$"{APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro"
+      - ~/.aspnet/https:/https
+    
   basket.api:
     image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: src/Services/Basket/Basket.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Eshop
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Server=basketdb;Port=5432;Database=BasketDb;User Id=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__Redis=distributedcache:6379
+      - GrpcSettings__DiscountUrl=https://discount.grpc:8081
+    depends_on:
+      - basketdb
+      - distributedcache
+      - discount.grpc
+    ports:
+      - "6001:8080"
+      - "6061:8081"
+    volumes:
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro #$"{APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro"
+      - ~/.aspnet/https:/root/.aspnet/https:ro #$"{APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro"
+      - ~/.aspnet/https:/https
   
   discount.grpc:
     image: ${DOCKER_REGISTRY-}discountgrpc
     build:
       context: .
       dockerfile: src/Services/Discount/Discount.Grpc/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Eshop
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ConnectionStrings__Database=Data Source=discountdb
+    ports:
+      - "6002:8080"
+      - "6062:8081"
+    volumes:
+      - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro #$"{APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro"
+      - ~/.aspnet/https:/root/.aspnet/https:ro #$"{APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro"
+      - ~/.aspnet/https:/https
 
 volumes:
   postgres_catalog:
